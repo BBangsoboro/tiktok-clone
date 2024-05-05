@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
-import 'package:tictok_clone/features/authentication/email_screen.dart';
-import 'package:tictok_clone/features/authentication/onboarding/interests_screen.dart';
+
+import 'package:tictok_clone/features/onboarding/interests_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
 
 class BirthdayScreen extends StatefulWidget {
@@ -33,21 +33,25 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
   }
 
   void _onNextTap() {
-    Navigator.of(context).push(PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const InterestsScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var curve = Curves.ease;
-        var curveTween = CurveTween(curve: curve);
+    Navigator.of(context).pushAndRemoveUntil(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const InterestsScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var curve = Curves.ease;
+          var curveTween = CurveTween(curve: curve);
 
-        const begin = Offset(1.0, 0.0);
-        const end = Offset(0.0, 0.0);
+          const begin = Offset(1.0, 0.0);
+          const end = Offset(0.0, 0.0);
 
-        final tween = Tween(begin: begin, end: end).chain(curveTween);
+          final tween = Tween(begin: begin, end: end).chain(curveTween);
 
-        return SlideTransition(position: animation.drive(tween), child: child);
-      },
-    ));
+          return SlideTransition(
+              position: animation.drive(tween), child: child);
+        },
+      ),
+      (route) => false,
+    );
   }
 
   void _setTextFieldDate(DateTime date) {
