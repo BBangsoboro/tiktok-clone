@@ -99,7 +99,7 @@ class LogInScreen extends StatelessWidget {
                   "Sing up",
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.primary,
+                    color: Theme.of(context).primaryColor,
                   ),
                 ),
               ),

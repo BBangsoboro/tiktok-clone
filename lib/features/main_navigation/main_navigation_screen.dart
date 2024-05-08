@@ -4,6 +4,8 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/discover/discover_screen.dart';
+import 'package:tictok_clone/features/inbox/inbox_screen.dart';
 import 'package:tictok_clone/features/main_navigation/widgets/nav_tab.dart';
 import 'package:tictok_clone/features/main_navigation/widgets/post_video_button.dart';
 import 'package:tictok_clone/features/videos/video_timeline_screen.dart';
@@ -16,7 +18,7 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 3;
 
   void _onTap(int index) {
     setState(() {
@@ -60,11 +62,11 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           ),
           Offstage(
             offstage: _selectedIndex != 1,
-            child: Container(),
+            child: const DiscoverScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 3,
-            child: Container(),
+            child: const InboxScreen(),
           ),
           Offstage(
             offstage: _selectedIndex != 4,
@@ -73,7 +75,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
         ],
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.black,
+        color: _selectedIndex == 0 ? Colors.black : Colors.white,
+        surfaceTintColor: _selectedIndex == 0 ? Colors.black : Colors.white,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: Sizes.size10),
           child: Row(
@@ -86,6 +89,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 label: "Home",
                 isSelected: _selectedIndex == 0,
                 onTap: () => _onTap(0),
+                selectedIndex: _selectedIndex,
               ),
               NavTab(
                 icon: FontAwesomeIcons.compass,
@@ -93,10 +97,12 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 label: "Discover",
                 isSelected: _selectedIndex == 1,
                 onTap: () => _onTap(1),
+                selectedIndex: _selectedIndex,
               ),
               Gaps.h24,
               PostVideoButton(
                 onTap: _onPostVideoButtonTap,
+                inverted: _selectedIndex != 0,
               ),
               Gaps.h24,
               NavTab(
@@ -104,6 +110,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 selectedIcon: FontAwesomeIcons.solidMessage,
                 isSelected: _selectedIndex == 3,
                 onTap: () => _onTap(3),
+                selectedIndex: _selectedIndex,
                 label: "Inbox",
               ),
               NavTab(
@@ -112,6 +119,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 label: "Profile",
                 isSelected: _selectedIndex == 4,
                 onTap: () => _onTap(4),
+                selectedIndex: _selectedIndex,
               ),
             ],
           ),

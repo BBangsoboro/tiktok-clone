@@ -119,7 +119,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
                   TextFormField(
                     enabled: false,
                     controller: _birthdayController,
-                    cursorColor: Theme.of(context).colorScheme.primary,
+                    cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
                       hintStyle: TextStyle(
                         color: Colors.grey.shade400,

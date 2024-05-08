@@ -139,7 +139,7 @@ class _EmailScreenState extends State<EmailScreen> {
                       keyboardType: TextInputType.emailAddress,
                       autocorrect: false,
                       controller: _emailController,
-                      cursorColor: Theme.of(context).colorScheme.primary,
+                      cursorColor: Theme.of(context).primaryColor,
                       onEditingComplete: _onSubmit,
                       decoration: InputDecoration(
                         hintText: "Email",

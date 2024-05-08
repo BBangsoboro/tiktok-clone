@@ -146,7 +146,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                       autocorrect: false,
                       obscureText: _obscureText,
                       controller: _passwordController,
-                      cursorColor: Theme.of(context).colorScheme.primary,
+                      cursorColor: Theme.of(context).primaryColor,
                       onEditingComplete: _onSubmit,
                       decoration: InputDecoration(
                         hintText: "Password",

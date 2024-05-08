@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/videos/widgets/video_post.dart';
 
 class VideoTimelineScreen extends StatefulWidget {
@@ -31,10 +30,10 @@ class _VideoTimelineScreenState extends State<VideoTimelineScreen> {
 
   void _onVideoFinished() {
     return;
-    _pageController.nextPage(
-      duration: _scrollDuration,
-      curve: _scrollCurve,
-    );
+    // _pageController.nextPage(
+    //   duration: _scrollDuration,
+    //   curve: _scrollCurve,
+    // );
   }
 
   @override

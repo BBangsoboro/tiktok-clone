@@ -107,7 +107,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
                 children: [
                   TextFormField(
                     controller: _usernameController,
-                    cursorColor: Theme.of(context).colorScheme.primary,
+                    cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
                       hintText: "Username",
                       hintStyle: TextStyle(
