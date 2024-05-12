@@ -3,13 +3,40 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/inbox/activity_screen.dart';
+import 'package:tictok_clone/features/inbox/chats_screen.dart';
 
-class InboxScreen extends StatelessWidget {
+class InboxScreen extends StatefulWidget {
   const InboxScreen({super.key});
 
-  void _onDmPressed() {}
+  @override
+  State<InboxScreen> createState() => _InboxScreenState();
+}
 
-  void _onActivityTap(BuildContext context) {
+class _InboxScreenState extends State<InboxScreen> {
+  void _onDmPressed() {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const ChatsScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          var curve = Curves.ease;
+          var curveTween = CurveTween(curve: curve);
+
+          const begin = Offset(1.0, 0.0);
+          const end = Offset(0.0, 0.0);
+
+          final tween = Tween(begin: begin, end: end).chain(curveTween);
+
+          return SlideTransition(
+            position: animation.drive(tween),
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
+  void _onActivityTap() {
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) =>
@@ -52,7 +79,7 @@ class InboxScreen extends StatelessWidget {
       body: ListView(
         children: [
           ListTile(
-            onTap: () => {_onActivityTap(context)},
+            onTap: _onActivityTap,
             title: const Text(
               'Activity',
               style: TextStyle(
