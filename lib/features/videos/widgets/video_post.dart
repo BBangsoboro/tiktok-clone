@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -23,13 +24,25 @@ class VideoPost extends StatefulWidget {
 
 class _VideoPostState extends State<VideoPost>
     with SingleTickerProviderStateMixin {
-  final VideoPlayerController _videoPlayerController =
-      VideoPlayerController.asset("assets/videos/video.mp4");
+  late final VideoPlayerController _videoPlayerController;
   final Duration _animatedDuration = const Duration(milliseconds: 200);
   late final AnimationController _animationController;
 
   bool _isPaused = false;
   bool _isSeeMore = false;
+  bool _isMute = false;
+
+  void _onMute() async {
+    setState(() {
+      _isMute = !_isMute;
+    });
+
+    if (_isMute) {
+      await _videoPlayerController.setVolume(50);
+    } else {
+      await _videoPlayerController.setVolume(0);
+    }
+  }
 
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
@@ -41,9 +54,14 @@ class _VideoPostState extends State<VideoPost>
   }
 
   void _initVideoPlayer() async {
+    _videoPlayerController =
+        VideoPlayerController.asset("assets/videos/video.mp4");
     await _videoPlayerController.initialize();
     setState(() {});
     await _videoPlayerController.setLooping(true);
+    if (kIsWeb) {
+      await _videoPlayerController.setVolume(0);
+    }
     _videoPlayerController.addListener(_onVideoChange);
   }
 
@@ -219,6 +237,23 @@ class _VideoPostState extends State<VideoPost>
               right: 20,
               child: Column(
                 children: [
+                  GestureDetector(
+                    onTap: _onMute,
+                    child: AnimatedCrossFade(
+                      crossFadeState: _isMute
+                          ? CrossFadeState.showSecond
+                          : CrossFadeState.showFirst,
+                      duration: const Duration(milliseconds: 300),
+                      firstChild: const VideoButton(
+                        icon: FontAwesomeIcons.volumeXmark,
+                        text: "",
+                      ),
+                      secondChild: const VideoButton(
+                        icon: FontAwesomeIcons.volumeHigh,
+                        text: "",
+                      ),
+                    ),
+                  ),
                   const Column(
                     children: [
                       CircleAvatar(

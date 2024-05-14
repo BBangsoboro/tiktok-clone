@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/onboarding/interests_screen.dart';
@@ -22,26 +23,27 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
     if (_formKey.currentState != null) {
       if (_formKey.currentState!.validate()) {
         _formKey.currentState!.save();
-        Navigator.of(context).pushAndRemoveUntil(
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const InterestsScreen(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              var curve = Curves.ease;
-              var curveTween = CurveTween(curve: curve);
+        // Navigator.of(context).pushAndRemoveUntil(
+        //   PageRouteBuilder(
+        //     pageBuilder: (context, animation, secondaryAnimation) =>
+        //         const InterestsScreen(),
+        //     transitionsBuilder:
+        //         (context, animation, secondaryAnimation, child) {
+        //       var curve = Curves.ease;
+        //       var curveTween = CurveTween(curve: curve);
 
-              const begin = Offset(1.0, 0.0);
-              const end = Offset(0.0, 0.0);
+        //       const begin = Offset(1.0, 0.0);
+        //       const end = Offset(0.0, 0.0);
 
-              final tween = Tween(begin: begin, end: end).chain(curveTween);
+        //       final tween = Tween(begin: begin, end: end).chain(curveTween);
 
-              return SlideTransition(
-                  position: animation.drive(tween), child: child);
-            },
-          ),
-          (route) => false,
-        );
+        //       return SlideTransition(
+        //           position: animation.drive(tween), child: child);
+        //     },
+        //   ),
+        //   (route) => false,
+        // );
+        context.go(InterestsScreen.routeName);
       }
     }
   }
@@ -96,8 +98,18 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
                 ),
                 Gaps.v16,
                 TextFormField(
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     hintText: 'Password',
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
                   ),
                   validator: (value) {
                     if (value != null && value.isEmpty) {

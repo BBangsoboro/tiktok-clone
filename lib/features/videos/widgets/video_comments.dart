@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tictok_clone/features/utils.dart';
 
 class VideoComments extends StatefulWidget {
   const VideoComments({super.key});
@@ -45,9 +46,11 @@ class _VideoCommentsState extends State<VideoComments> {
         borderRadius: BorderRadius.circular(Sizes.size10),
       ),
       child: Scaffold(
-        backgroundColor: Colors.grey.shade50,
+        backgroundColor:
+            isDarkMode(context) ? Colors.grey.shade900 : Colors.grey.shade50,
         appBar: AppBar(
-          backgroundColor: Colors.grey.shade50,
+          backgroundColor:
+              isDarkMode(context) ? Colors.grey.shade900 : Colors.grey.shade50,
           automaticallyImplyLeading: false,
           centerTitle: true,
           title: const Text(
@@ -138,13 +141,14 @@ class _VideoCommentsState extends State<VideoComments> {
                     horizontal: Sizes.size16,
                     vertical: Sizes.size10,
                   ),
-                  surfaceTintColor: Colors.white,
-                  color: Colors.white,
+                  color: isDarkMode(context) ? Colors.black : Colors.white,
                   child: Row(
                     children: [
                       CircleAvatar(
                         radius: 18,
-                        backgroundColor: Colors.grey.shade500,
+                        backgroundColor: isDarkMode(context)
+                            ? Colors.grey.shade700
+                            : Colors.grey.shade500,
                         foregroundColor: Colors.white,
                         child: const Text('민기'),
                       ),
@@ -158,7 +162,7 @@ class _VideoCommentsState extends State<VideoComments> {
                             maxLines: null,
                             expands: true,
                             textInputAction: TextInputAction.newline,
-                            cursorColor: Theme.of(context).colorScheme.primary,
+                            cursorColor: Theme.of(context).primaryColor,
                             decoration: InputDecoration(
                               hintText: "Add comment...",
                               hintStyle: TextStyle(
@@ -174,7 +178,9 @@ class _VideoCommentsState extends State<VideoComments> {
                                     BorderRadius.circular(Sizes.size12),
                               ),
                               filled: true,
-                              fillColor: Colors.grey.shade200,
+                              fillColor: isDarkMode(context)
+                                  ? Colors.grey.shade800
+                                  : Colors.grey.shade200,
                               suffixIcon: Padding(
                                 padding:
                                     const EdgeInsets.only(right: Sizes.size14),
@@ -184,17 +190,23 @@ class _VideoCommentsState extends State<VideoComments> {
                                     Gaps.h14,
                                     FaIcon(
                                       FontAwesomeIcons.at,
-                                      color: Colors.grey.shade900,
+                                      color: isDarkMode(context)
+                                          ? Colors.grey.shade400
+                                          : Colors.grey.shade900,
                                     ),
                                     Gaps.h14,
                                     FaIcon(
                                       FontAwesomeIcons.gift,
-                                      color: Colors.grey.shade900,
+                                      color: isDarkMode(context)
+                                          ? Colors.grey.shade400
+                                          : Colors.grey.shade900,
                                     ),
                                     Gaps.h14,
                                     FaIcon(
                                       FontAwesomeIcons.faceLaugh,
-                                      color: Colors.grey.shade900,
+                                      color: isDarkMode(context)
+                                          ? Colors.grey.shade400
+                                          : Colors.grey.shade900,
                                     ),
                                     Gaps.h14,
                                     if (_isWriteFlag)
@@ -202,9 +214,7 @@ class _VideoCommentsState extends State<VideoComments> {
                                         onTap: _stopWriting,
                                         child: FaIcon(
                                           FontAwesomeIcons.circleArrowUp,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .primary,
+                                          color: Theme.of(context).primaryColor,
                                         ),
                                       ),
                                   ],

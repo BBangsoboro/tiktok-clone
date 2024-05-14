@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/email_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
 
 class UsernameScreen extends StatefulWidget {
+  static String routeName = "username";
+  static String routeURL = "username";
   const UsernameScreen({super.key});
 
   @override
@@ -37,21 +40,32 @@ class _UsernameScreenState extends State<UsernameScreen> {
   void _onNextTap() {
     if (_username.isEmpty) return;
 
-    Navigator.of(context).push(PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const EmailScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var curve = Curves.ease;
-        var curveTween = CurveTween(curve: curve);
+    // Navigator.of(context).push(PageRouteBuilder(
+    //   pageBuilder: (context, animation, secondaryAnimation) =>
+    //       const EmailScreen(),
+    //   transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //     var curve = Curves.ease;
+    //     var curveTween = CurveTween(curve: curve);
 
-        const begin = Offset(1.0, 0.0);
-        const end = Offset(0.0, 0.0);
+    //     const begin = Offset(1.0, 0.0);
+    //     const end = Offset(0.0, 0.0);
 
-        final tween = Tween(begin: begin, end: end).chain(curveTween);
+    //     final tween = Tween(begin: begin, end: end).chain(curveTween);
 
-        return SlideTransition(position: animation.drive(tween), child: child);
-      },
-    ));
+    //     return SlideTransition(position: animation.drive(tween), child: child);
+    //   },
+    // ));
+
+    // Navigator.pushNamed(
+    //   context,
+    //   EmailScreen.routeName,
+    //   arguments: EmailScreenParams(username: _username),
+    // );
+
+    context.pushNamed(
+      EmailScreen.routeName,
+      extra: EmailScreenParams(username: _username),
+    );
   }
 
   @override
@@ -61,19 +75,20 @@ class _UsernameScreenState extends State<UsernameScreen> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'Skip',
               style: TextStyle(
                 fontSize: Sizes.size16,
-                color: Colors.grey.shade500,
               ),
             ),
             const Text('Sign up'),
-            IconButton(
-              onPressed: () => {},
-              icon: FaIcon(
-                FontAwesomeIcons.circleQuestion,
-                color: Colors.grey.shade500,
+            Opacity(
+              opacity: 0.7,
+              child: IconButton(
+                onPressed: () => {},
+                icon: const FaIcon(
+                  FontAwesomeIcons.circleQuestion,
+                ),
               ),
             )
           ],
@@ -81,7 +96,7 @@ class _UsernameScreenState extends State<UsernameScreen> {
         automaticallyImplyLeading: false,
       ),
       body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,11 +109,13 @@ class _UsernameScreenState extends State<UsernameScreen> {
               ),
             ),
             Gaps.v10,
-            const Text(
-              "You can always change this later.",
-              style: TextStyle(
-                fontSize: Sizes.size14,
-                color: Colors.black54,
+            const Opacity(
+              opacity: 0.7,
+              child: Text(
+                "You can always change this later.",
+                style: TextStyle(
+                  fontSize: Sizes.size14,
+                ),
               ),
             ),
             Gaps.v28,
@@ -107,7 +124,6 @@ class _UsernameScreenState extends State<UsernameScreen> {
                 children: [
                   TextFormField(
                     controller: _usernameController,
-                    cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
                       hintText: "Username",
                       hintStyle: TextStyle(
@@ -122,7 +138,6 @@ class _UsernameScreenState extends State<UsernameScreen> {
                       ),
                     ),
                     style: const TextStyle(
-                      color: Colors.black,
                       fontSize: Sizes.size16,
                     ),
                     showCursor: true,

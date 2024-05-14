@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/onboarding/tutorial_screen.dart';
@@ -48,6 +49,7 @@ const interests = [
 ];
 
 class InterestsScreen extends StatefulWidget {
+  static String routeName = "/interests";
   const InterestsScreen({super.key});
 
   @override
@@ -85,21 +87,22 @@ class _InterestsScreenState extends State<InterestsScreen> {
   }
 
   void _onNextTap() {
-    Navigator.of(context).push(PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const TutorialScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var curve = Curves.ease;
-        var curveTween = CurveTween(curve: curve);
+    // Navigator.of(context).push(PageRouteBuilder(
+    //   pageBuilder: (context, animation, secondaryAnimation) =>
+    //       const TutorialScreen(),
+    //   transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //     var curve = Curves.ease;
+    //     var curveTween = CurveTween(curve: curve);
 
-        const begin = Offset(1.0, 0.0);
-        const end = Offset(0.0, 0.0);
+    //     const begin = Offset(1.0, 0.0);
+    //     const end = Offset(0.0, 0.0);
 
-        final tween = Tween(begin: begin, end: end).chain(curveTween);
+    //     final tween = Tween(begin: begin, end: end).chain(curveTween);
 
-        return SlideTransition(position: animation.drive(tween), child: child);
-      },
-    ));
+    //     return SlideTransition(position: animation.drive(tween), child: child);
+    //   },
+    // ));
+    context.go(TutorialScreen.routeName);
   }
 
   @override
@@ -173,28 +176,20 @@ class _InterestsScreenState extends State<InterestsScreen> {
       ),
       bottomNavigationBar: BottomAppBar(
         elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.only(
-            bottom: Sizes.size40,
-            top: Sizes.size16,
-            left: Sizes.size24,
-            right: Sizes.size24,
-          ),
-          child: GestureDetector(
-            onTap: _onNextTap,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: Sizes.size20),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+        child: GestureDetector(
+          onTap: _onNextTap,
+          child: Container(
+            padding: const EdgeInsets.symmetric(vertical: Sizes.size14),
+            decoration: BoxDecoration(
+                color: Theme.of(context).primaryColor,
+                borderRadius: BorderRadius.circular(2)),
+            child: const Text(
+              'Next',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: Sizes.size20,
               ),
-              child: const Text(
-                'Next',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: Sizes.size16,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              textAlign: TextAlign.center,
             ),
           ),
         ),

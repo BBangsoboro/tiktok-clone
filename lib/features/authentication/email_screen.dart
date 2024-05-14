@@ -1,13 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/password_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
 
+class EmailScreenParams {
+  final String username;
+
+  EmailScreenParams({required this.username});
+}
+
 class EmailScreen extends StatefulWidget {
-  const EmailScreen({super.key});
+  static String routeName = "email";
+  static String routeURL = "email";
+  final String username;
+  const EmailScreen({super.key, required this.username});
 
   @override
   State<EmailScreen> createState() => _EmailScreenState();
@@ -21,6 +32,7 @@ class _EmailScreenState extends State<EmailScreen> {
   @override
   void initState() {
     super.initState();
+
     _emailController.addListener(() {
       setState(() {
         _email = _emailController.text;
@@ -37,21 +49,21 @@ class _EmailScreenState extends State<EmailScreen> {
   void _onNextTap() {
     if (_email.isEmpty) return;
 
-    Navigator.of(context).push(PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const EmailScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var curve = Curves.ease;
-        var curveTween = CurveTween(curve: curve);
+    // Navigator.of(context).push(PageRouteBuilder(
+    //   pageBuilder: (context, animation, secondaryAnimation) =>
+    //       const EmailScreen(),
+    //   transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //     var curve = Curves.ease;
+    //     var curveTween = CurveTween(curve: curve);
 
-        const begin = Offset(1.0, 0.0);
-        const end = Offset(0.0, 0.0);
+    //     const begin = Offset(1.0, 0.0);
+    //     const end = Offset(0.0, 0.0);
 
-        final tween = Tween(begin: begin, end: end).chain(curveTween);
+    //     final tween = Tween(begin: begin, end: end).chain(curveTween);
 
-        return SlideTransition(position: animation.drive(tween), child: child);
-      },
-    ));
+    //     return SlideTransition(position: animation.drive(tween), child: child);
+    //   },
+    // ));
   }
 
   String? _isEmailValid() {
@@ -107,11 +119,14 @@ class _EmailScreenState extends State<EmailScreen> {
                 ),
               ),
               const Text('Sign up'),
-              IconButton(
-                onPressed: () => {},
-                icon: FaIcon(
-                  FontAwesomeIcons.circleQuestion,
-                  color: Colors.grey.shade500,
+              Opacity(
+                opacity: 0.7,
+                child: IconButton(
+                  onPressed: () => {},
+                  icon: FaIcon(
+                    FontAwesomeIcons.circleQuestion,
+                    color: Colors.grey.shade500,
+                  ),
                 ),
               )
             ],
@@ -119,14 +134,14 @@ class _EmailScreenState extends State<EmailScreen> {
           automaticallyImplyLeading: false,
         ),
         body: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "What is your email?",
-                style: TextStyle(
+              Text(
+                "What is your email?, ${widget.username}",
+                style: const TextStyle(
                   fontSize: Sizes.size16,
                   fontWeight: FontWeight.w600,
                 ),
@@ -156,7 +171,6 @@ class _EmailScreenState extends State<EmailScreen> {
                         ),
                       ),
                       style: const TextStyle(
-                        color: Colors.black,
                         fontSize: Sizes.size20,
                       ),
                       showCursor: true,

@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/utils.dart';
 
 class ChatDetailScreen extends StatefulWidget {
   const ChatDetailScreen({super.key});
@@ -33,8 +34,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
       appBar: AppBar(
         title: ListTile(
           contentPadding: EdgeInsets.zero,
-          horizontalTitleGap: Sizes.size8,
+          horizontalTitleGap: Sizes.size10,
           leading: Stack(
+            clipBehavior: Clip.none,
             children: [
               const CircleAvatar(
                 radius: Sizes.size20,
@@ -78,13 +80,11 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
             children: [
               FaIcon(
                 FontAwesomeIcons.flag,
-                color: Colors.black,
                 size: Sizes.size20,
               ),
               Gaps.h28,
               FaIcon(
                 FontAwesomeIcons.ellipsis,
-                color: Colors.black,
                 size: Sizes.size20,
               )
             ],
@@ -153,8 +153,6 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
               bottom: 0,
               width: MediaQuery.of(context).size.width,
               child: BottomAppBar(
-                color: Colors.white,
-                surfaceTintColor: Colors.grey.shade500,
                 child: Row(
                   children: [
                     Expanded(
@@ -172,7 +170,9 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                                   vertical: Sizes.size6,
                                   horizontal: Sizes.size20),
                               filled: true,
-                              fillColor: Colors.white,
+                              fillColor: isDarkMode(context)
+                                  ? Colors.grey.shade900
+                                  : Colors.white,
                               hintText: "Send a message...",
                               hintStyle: TextStyle(
                                 color: Colors.grey.shade500,
@@ -218,14 +218,18 @@ class _ChatDetailScreenState extends State<ChatDetailScreen> {
                       height: Sizes.size32,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Colors.grey.shade300,
+                        color: isDarkMode(context)
+                            ? Colors.grey.shade900
+                            : Colors.grey.shade300,
                       ),
-                      child: const Align(
+                      child: Align(
                         alignment: Alignment.center,
                         child: FaIcon(
                           FontAwesomeIcons.solidPaperPlane,
                           size: Sizes.size16,
-                          color: Colors.white,
+                          color: isDarkMode(context)
+                              ? Colors.grey.shade300
+                              : Colors.white,
                         ),
                       ),
                     )

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/utils.dart';
 
 class UserProfileInfo extends StatelessWidget {
   final String value;
@@ -13,8 +14,8 @@ class UserProfileInfo extends StatelessWidget {
       children: [
         Text(
           value,
-          style: const TextStyle(
-            color: Colors.black,
+          style: TextStyle(
+            color: isDarkMode(context) ? Colors.white : Colors.black,
             fontSize: Sizes.size18,
             fontWeight: FontWeight.bold,
           ),
@@ -22,7 +23,9 @@ class UserProfileInfo extends StatelessWidget {
         Text(
           text,
           style: TextStyle(
-            color: Colors.grey.shade900,
+            color: isDarkMode(context)
+                ? Colors.grey.shade300
+                : Colors.grey.shade900,
             fontSize: Sizes.size14,
             fontWeight: FontWeight.w300,
           ),

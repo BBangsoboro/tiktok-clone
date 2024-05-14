@@ -100,8 +100,6 @@ class _ChatsScreenState extends State<ChatsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.white,
         shadowColor: Colors.grey.shade200,
         elevation: 1,
         title: const Text("Direct Messages"),

@@ -81,7 +81,7 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
         automaticallyImplyLeading: false,
       ),
       body: Container(
-        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+        padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 40),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,7 +119,6 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
                   TextFormField(
                     enabled: false,
                     controller: _birthdayController,
-                    cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
                       hintStyle: TextStyle(
                         color: Colors.grey.shade400,
@@ -133,7 +132,6 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
                       ),
                     ),
                     style: const TextStyle(
-                      color: Colors.black,
                       fontSize: Sizes.size16,
                     ),
                     showCursor: true,

@@ -6,9 +6,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/features/settings/settings_screen.dart';
 import 'package:tictok_clone/features/users/widgets/persistent_tab_bar.dart';
 import 'package:tictok_clone/features/users/widgets/user_profile_info.dart';
+import 'package:tictok_clone/features/utils.dart';
 
 class UserProfileScreen extends StatefulWidget {
-  const UserProfileScreen({super.key});
+  final String username;
+  final String tab;
+  const UserProfileScreen(
+      {super.key, required this.username, required this.tab});
 
   @override
   State<UserProfileScreen> createState() => _UserProfileScreenState();
@@ -41,6 +45,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: DefaultTabController(
+        initialIndex: widget.tab == "likes" ? 1 : 0,
         length: 2,
         child: NestedScrollView(
           body: TabBarView(
@@ -78,7 +83,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
             return [
               SliverAppBar(
                 centerTitle: true,
-                title: const Text('BBangSoboro'),
+                title: Text(widget.username),
                 actions: [
                   IconButton(
                     onPressed: _onGearPressed,
@@ -105,12 +110,14 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text(
-                          "@bbangsoboro",
+                        Text(
+                          "@${widget.username}",
                           style: TextStyle(
                             fontSize: Sizes.size16,
                             fontWeight: FontWeight.w600,
-                            color: Colors.black,
+                            color: isDarkMode(context)
+                                ? Colors.white
+                                : Colors.black,
                           ),
                         ),
                         Gaps.h4,
@@ -178,31 +185,27 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ),
                     ),
                     Gaps.v10,
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
                         horizontal: Sizes.size32,
                       ),
                       child: Text(
-                        "All highlights and where to watch live matches on FIFA + I wonder how it would look",
-                        textAlign: TextAlign.center,
-                      ),
+                          "All highlights and where to watch live matches on FIFA + I wonder how it would look",
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyMedium),
                     ),
                     Gaps.v10,
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        FaIcon(
+                        const FaIcon(
                           FontAwesomeIcons.link,
                           size: Sizes.size14,
                         ),
                         Gaps.h12,
-                        Text(
-                          "https://www.fifa.com/fifaplus/en/home",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                        Text("https://www.fifa.com/fifaplus/en/home",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.labelLarge),
                       ],
                     ),
                     Gaps.v5,

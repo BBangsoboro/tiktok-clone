@@ -112,11 +112,14 @@ class _PasswordScreenState extends State<PasswordScreen> {
                 ),
               ),
               const Text('Sign up'),
-              IconButton(
-                onPressed: () => {},
-                icon: FaIcon(
-                  FontAwesomeIcons.circleQuestion,
-                  color: Colors.grey.shade500,
+              Opacity(
+                opacity: 0.7,
+                child: IconButton(
+                  onPressed: () => {},
+                  icon: FaIcon(
+                    FontAwesomeIcons.circleQuestion,
+                    color: Colors.grey.shade500,
+                  ),
                 ),
               )
             ],
@@ -124,7 +127,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
           automaticallyImplyLeading: false,
         ),
         body: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 40),
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 40),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +149,6 @@ class _PasswordScreenState extends State<PasswordScreen> {
                       autocorrect: false,
                       obscureText: _obscureText,
                       controller: _passwordController,
-                      cursorColor: Theme.of(context).primaryColor,
                       onEditingComplete: _onSubmit,
                       decoration: InputDecoration(
                         hintText: "Password",
@@ -187,7 +189,6 @@ class _PasswordScreenState extends State<PasswordScreen> {
                         ),
                       ),
                       style: const TextStyle(
-                        color: Colors.black,
                         fontSize: Sizes.size16,
                       ),
                       showCursor: true,
@@ -218,10 +219,10 @@ class _PasswordScreenState extends State<PasswordScreen> {
                           size: Sizes.size18,
                         ),
                         Gaps.h4,
-                        const Text(
+                        Text(
                           "8 to 20 characters",
                           style: TextStyle(
-                            color: Colors.black87,
+                            color: Colors.grey.shade500,
                             fontSize: Sizes.size12,
                           ),
                         )
@@ -238,10 +239,10 @@ class _PasswordScreenState extends State<PasswordScreen> {
                           size: Sizes.size18,
                         ),
                         Gaps.h4,
-                        const Text(
+                        Text(
                           "Letters, numbers, and special characters",
                           style: TextStyle(
-                            color: Colors.black87,
+                            color: Colors.grey.shade500,
                             fontSize: Sizes.size12,
                           ),
                         )

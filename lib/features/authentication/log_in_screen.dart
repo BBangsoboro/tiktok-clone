@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/login_form_screen.dart';
@@ -11,10 +13,15 @@ import 'package:tictok_clone/features/authentication/widgets/auth_button.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LogInScreen extends StatelessWidget {
+  static String routeName = "login";
+  static String routeURL = "login";
   const LogInScreen({super.key});
 
   void onSignUpTap(BuildContext context) {
-    Navigator.of(context).pop();
+    // 버전 1 방식
+    //Navigator.of(context).pop();
+    // 버전 2 방식
+    context.pop();
   }
 
   void _onEmailLoginTap(BuildContext context) {
@@ -38,7 +45,6 @@ class LogInScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.symmetric(
@@ -47,21 +53,20 @@ class LogInScreen extends StatelessWidget {
           child: Column(
             children: [
               Gaps.v80,
-              const Text(
+              Text(
                 "Log in to TikTok",
-                style: TextStyle(
-                  fontSize: Sizes.size24,
-                  fontWeight: FontWeight.w700,
-                ),
+                style: Theme.of(context).textTheme.headlineSmall,
               ),
               Gaps.v20,
-              const Text(
-                "Manage your account, check notifications. comment on videos, and more.",
-                style: TextStyle(
-                  fontSize: Sizes.size16,
-                  color: Colors.black45,
+              const Opacity(
+                opacity: 0.7,
+                child: Text(
+                  "Manage your account, check notifications. comment on videos, and more.",
+                  style: TextStyle(
+                    fontSize: Sizes.size16,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
               Gaps.v40,
               GestureDetector(
@@ -81,30 +86,28 @@ class LogInScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomAppBar(
-        color: Colors.grey.shade50,
+        surfaceTintColor: Colors.white,
         elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: Sizes.size32,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                "Don't have an account? ",
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              "Don't have an account? ",
+              style: TextStyle(
+                fontSize: Sizes.size16,
               ),
-              GestureDetector(
-                onTap: () => onSignUpTap(context),
-                child: Text(
-                  "Sing up",
-                  style: TextStyle(
+            ),
+            GestureDetector(
+              onTap: () => onSignUpTap(context),
+              child: Text(
+                "Sign up",
+                style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).primaryColor,
-                  ),
-                ),
+                    fontSize: Sizes.size16),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

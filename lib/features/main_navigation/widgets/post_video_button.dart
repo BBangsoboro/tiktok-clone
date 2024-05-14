@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tictok_clone/features/utils.dart';
 
 class PostVideoButton extends StatefulWidget {
   final Function onTap;
@@ -109,13 +110,21 @@ class _PostVideoButtonState extends State<PostVideoButton> {
                 height: 30,
                 padding: const EdgeInsets.symmetric(horizontal: Sizes.size12),
                 decoration: BoxDecoration(
-                  color: widget.inverted ? Colors.black : Colors.white,
+                  color: widget.inverted
+                      ? isDarkMode(context)
+                          ? Colors.white
+                          : Colors.black
+                      : Colors.white,
                   borderRadius: BorderRadius.circular(Sizes.size6),
                 ),
                 child: Center(
                   child: FaIcon(
                     FontAwesomeIcons.plus,
-                    color: widget.inverted ? Colors.white : Colors.black,
+                    color: widget.inverted
+                        ? isDarkMode(context)
+                            ? Colors.black
+                            : Colors.white
+                        : Colors.black,
                     size: Sizes.size16,
                   ),
                 ))

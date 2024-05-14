@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:tictok_clone/constants/breakpoints.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tictok_clone/features/utils.dart';
 
 final tabs = [
   "Top",
@@ -51,13 +53,12 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return DefaultTabController(
       length: tabs.length,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          backgroundColor: Colors.white,
-          surfaceTintColor: Colors.white,
           elevation: 1,
           shadowColor: Colors.black.withOpacity(0.5),
           title: Row(
@@ -66,7 +67,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                 onPressed: () => {},
                 icon: FaIcon(
                   FontAwesomeIcons.chevronLeft,
-                  color: Colors.grey.shade800,
+                  color: isDarkMode(context)
+                      ? Colors.grey.shade500
+                      : Colors.grey.shade800,
                 ),
                 iconSize: Sizes.size24,
               ),
@@ -77,13 +80,17 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     controller: _textEditingController,
                     onChanged: _onSearchChanged,
                     onSubmitted: _onSearchSubmitted,
-                    cursorColor: Theme.of(context).primaryColor,
+                    style: TextStyle(
+                      color: isDarkMode(context) ? Colors.white : Colors.black,
+                    ),
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.symmetric(
                         vertical: Sizes.size10,
                       ),
                       filled: true,
-                      fillColor: Colors.grey.shade200,
+                      fillColor: isDarkMode(context)
+                          ? Colors.grey.shade800
+                          : Colors.grey.shade200,
                       border: OutlineInputBorder(
                         borderSide: BorderSide.none,
                         borderRadius: BorderRadius.circular(Sizes.size4),
@@ -96,7 +103,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                             onPressed: _onClearSearch,
                             icon: FaIcon(
                               FontAwesomeIcons.magnifyingGlass,
-                              color: Colors.grey.shade800,
+                              color: isDarkMode(context)
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800,
                             ),
                             iconSize: Sizes.size18,
                           ),
@@ -110,7 +119,9 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                             onPressed: _onClearSearch,
                             icon: FaIcon(
                               FontAwesomeIcons.solidCircleXmark,
-                              color: Colors.grey.shade700,
+                              color: isDarkMode(context)
+                                  ? Colors.grey.shade200
+                                  : Colors.grey.shade800,
                             ),
                             iconSize: Sizes.size18,
                           ),
@@ -137,16 +148,16 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             padding: const EdgeInsets.symmetric(
               horizontal: Sizes.size16,
             ),
-            labelColor: Colors.black,
+            labelColor: isDarkMode(context) ? Colors.white : Colors.black,
             labelStyle: const TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: Sizes.size16,
             ),
             unselectedLabelColor: Colors.grey.shade500,
-            indicatorColor: Colors.black,
+            indicatorColor: isDarkMode(context) ? Colors.white : Colors.black,
             indicatorSize: TabBarIndicatorSize.tab,
             isScrollable: true,
-            tabAlignment: TabAlignment.start,
+            tabAlignment: TabAlignment.center,
             tabs: [for (var tab in tabs) Tab(text: tab)],
           ),
         ),
@@ -162,73 +173,79 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   vertical: Sizes.size10,
                 ),
                 itemCount: 20,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: width > Breakpoints.lg ? 5 : 2,
                     crossAxisSpacing: Sizes.size8,
                     mainAxisSpacing: Sizes.size8,
                     childAspectRatio: 9 / 21),
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    Container(
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Sizes.size4),
-                      ),
-                      child: AspectRatio(
-                        aspectRatio: 9 / 16,
-                        child: FadeInImage.assetNetwork(
-                          fit: BoxFit.cover,
-                          placeholderFit: BoxFit.cover,
-                          placeholder: 'assets/images/placeholder.jpg',
-                          image: 'https://source.unsplash.com/random/?$index',
+                itemBuilder: (context, index) => LayoutBuilder(
+                  builder: (context, constraints) => Column(
+                    children: [
+                      Container(
+                        clipBehavior: Clip.hardEdge,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(Sizes.size4),
+                        ),
+                        child: AspectRatio(
+                          aspectRatio: 9 / 16,
+                          child: FadeInImage.assetNetwork(
+                            fit: BoxFit.cover,
+                            placeholderFit: BoxFit.cover,
+                            placeholder: 'assets/images/placeholder.jpg',
+                            image: 'https://source.unsplash.com/random/?$index',
+                          ),
                         ),
                       ),
-                    ),
-                    Gaps.v10,
-                    const Text(
-                      "This is very long caption for my tiktok that im upload just now currently.",
-                      style: TextStyle(
-                        fontSize: Sizes.size18,
-                        fontWeight: FontWeight.bold,
+                      Gaps.v10,
+                      const Text(
+                        "This is very long caption for my tiktok that im upload just now currently.",
+                        style: TextStyle(
+                          fontSize: Sizes.size18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    Gaps.v8,
-                    DefaultTextStyle(
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      child: Row(
-                        children: [
-                          const CircleAvatar(
-                            radius: 12,
-                            backgroundImage:
-                                AssetImage("assets/images/BBansoboro.jpg"),
+                      Gaps.v8,
+                      if (constraints.maxWidth < 200 ||
+                          constraints.maxWidth > 250)
+                        DefaultTextStyle(
+                          style: TextStyle(
+                            color: isDarkMode(context)
+                                ? Colors.grey.shade400
+                                : Colors.grey.shade600,
+                            fontWeight: FontWeight.w600,
                           ),
-                          Gaps.h4,
-                          const Expanded(
-                            child: Text(
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              "My avatar is goint to be very long",
-                            ),
+                          child: Row(
+                            children: [
+                              const CircleAvatar(
+                                radius: 12,
+                                backgroundImage:
+                                    AssetImage("assets/images/BBansoboro.jpg"),
+                              ),
+                              Gaps.h4,
+                              const Expanded(
+                                child: Text(
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  "My avatar is goint to be very long",
+                                ),
+                              ),
+                              Gaps.h4,
+                              FaIcon(
+                                FontAwesomeIcons.heart,
+                                size: Sizes.size16,
+                                color: Colors.grey.shade600,
+                              ),
+                              Gaps.h2,
+                              const Text(
+                                '2.5M',
+                              ),
+                            ],
                           ),
-                          Gaps.h4,
-                          FaIcon(
-                            FontAwesomeIcons.heart,
-                            size: Sizes.size16,
-                            color: Colors.grey.shade600,
-                          ),
-                          Gaps.h2,
-                          const Text(
-                            '2.5M',
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                        )
+                    ],
+                  ),
                 ),
               ),
               for (var tab in tabs.skip(1))

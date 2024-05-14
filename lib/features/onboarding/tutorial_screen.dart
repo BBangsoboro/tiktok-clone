@@ -1,15 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/main_navigation/main_navigation_screen.dart';
+import 'package:tictok_clone/features/utils.dart';
 
 enum Direction { right, left }
 
 enum Page { first, second }
 
 class TutorialScreen extends StatefulWidget {
+  static String routeName = "/tutorial";
   const TutorialScreen({super.key});
 
   @override
@@ -45,25 +48,26 @@ class _TutorialScreenState extends State<TutorialScreen> {
   }
 
   void _onEnterApp() {
-    Navigator.of(context).pushAndRemoveUntil(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const MainNavigationScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          var curve = Curves.ease;
-          var curveTween = CurveTween(curve: curve);
+    // Navigator.of(context).pushAndRemoveUntil(
+    //   PageRouteBuilder(
+    //     pageBuilder: (context, animation, secondaryAnimation) =>
+    //         const MainNavigationScreen(),
+    //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //       var curve = Curves.ease;
+    //       var curveTween = CurveTween(curve: curve);
 
-          const begin = Offset(1.0, 0.0);
-          const end = Offset(0.0, 0.0);
+    //       const begin = Offset(1.0, 0.0);
+    //       const end = Offset(0.0, 0.0);
 
-          final tween = Tween(begin: begin, end: end).chain(curveTween);
+    //       final tween = Tween(begin: begin, end: end).chain(curveTween);
 
-          return SlideTransition(
-              position: animation.drive(tween), child: child);
-        },
-      ),
-      (route) => false,
-    );
+    //       return SlideTransition(
+    //           position: animation.drive(tween), child: child);
+    //     },
+    //   ),
+    //   (route) => false,
+    // );
+    context.go(MainNavigationScreen.routeName);
   }
 
   @override
@@ -88,11 +92,13 @@ class _TutorialScreenState extends State<TutorialScreen> {
                     ),
                   ),
                   Gaps.v16,
-                  Text(
-                    "Videos are personalized for you based on what you watch, like and share.",
-                    style: TextStyle(
-                      fontSize: Sizes.size20,
-                      color: Colors.black54,
+                  Opacity(
+                    opacity: 0.7,
+                    child: Text(
+                      "Videos are personalized for you based on what you watch, like and share.",
+                      style: TextStyle(
+                        fontSize: Sizes.size20,
+                      ),
                     ),
                   ),
                 ],
@@ -109,11 +115,13 @@ class _TutorialScreenState extends State<TutorialScreen> {
                     ),
                   ),
                   Gaps.v16,
-                  Text(
-                    "Take care of one another! Pils!",
-                    style: TextStyle(
-                      fontSize: Sizes.size20,
-                      color: Colors.black54,
+                  Opacity(
+                    opacity: 0.7,
+                    child: Text(
+                      "Take care of one another! Pils!",
+                      style: TextStyle(
+                        fontSize: Sizes.size20,
+                      ),
                     ),
                   ),
                 ],
@@ -126,12 +134,8 @@ class _TutorialScreenState extends State<TutorialScreen> {
           ),
         ),
         bottomNavigationBar: BottomAppBar(
-          color: Colors.white54,
+          color: isDarkMode(context) ? Colors.black : Colors.white,
           elevation: 0,
-          padding: const EdgeInsets.symmetric(
-            vertical: Sizes.size48,
-            horizontal: Sizes.size24,
-          ),
           child: AnimatedOpacity(
             duration: const Duration(milliseconds: 300),
             opacity: _showinPage == Page.first ? 0 : 1,
@@ -139,8 +143,11 @@ class _TutorialScreenState extends State<TutorialScreen> {
               ignoring: _showinPage == Page.first,
               child: CupertinoButton(
                   onPressed: _onEnterApp,
-                  color: Theme.of(context).colorScheme.primary,
-                  child: const Text("Enter the app!")),
+                  color: Theme.of(context).primaryColor,
+                  child: const Text("Enter the app!",
+                      style: TextStyle(
+                        color: Colors.white,
+                      ))),
             ),
           ),
         ),
