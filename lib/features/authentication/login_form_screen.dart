@@ -43,7 +43,7 @@ class _LoginFormScreenState extends State<LoginFormScreen> {
         //   ),
         //   (route) => false,
         // );
-        context.go(InterestsScreen.routeName);
+        context.goNamed(InterestsScreen.routeName);
       }
     }
   }

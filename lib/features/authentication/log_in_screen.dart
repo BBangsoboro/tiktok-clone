@@ -14,7 +14,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LogInScreen extends StatelessWidget {
   static String routeName = "login";
-  static String routeURL = "login";
+  static String routeURL = "/login";
   const LogInScreen({super.key});
 
   void onSignUpTap(BuildContext context) {
@@ -25,21 +25,24 @@ class LogInScreen extends StatelessWidget {
   }
 
   void _onEmailLoginTap(BuildContext context) {
-    Navigator.of(context).push(PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) =>
-          const LoginFormScreen(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var curve = Curves.ease;
-        var curveTween = CurveTween(curve: curve);
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const LoginFormScreen(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            var curve = Curves.ease;
+            var curveTween = CurveTween(curve: curve);
 
-        const begin = Offset(1.0, 0.0);
-        const end = Offset(0.0, 0.0);
+            const begin = Offset(1.0, 0.0);
+            const end = Offset(0.0, 0.0);
 
-        final tween = Tween(begin: begin, end: end).chain(curveTween);
+            final tween = Tween(begin: begin, end: end).chain(curveTween);
 
-        return SlideTransition(position: animation.drive(tween), child: child);
-      },
-    ));
+            return SlideTransition(
+                position: animation.drive(tween), child: child);
+          },
+        ));
   }
 
   @override

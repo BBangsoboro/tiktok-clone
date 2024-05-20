@@ -49,7 +49,9 @@ const interests = [
 ];
 
 class InterestsScreen extends StatefulWidget {
-  static String routeName = "/interests";
+  static const String routeName = "interest";
+  static const String routeURL = "/tutorial";
+
   const InterestsScreen({super.key});
 
   @override
@@ -87,22 +89,18 @@ class _InterestsScreenState extends State<InterestsScreen> {
   }
 
   void _onNextTap() {
-    // Navigator.of(context).push(PageRouteBuilder(
-    //   pageBuilder: (context, animation, secondaryAnimation) =>
-    //       const TutorialScreen(),
-    //   transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //     var curve = Curves.ease;
-    //     var curveTween = CurveTween(curve: curve);
+    Navigator.of(context).push(PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) =>
+          const TutorialScreen(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        final tween =
+            Tween(begin: const Offset(1.0, 0.0), end: const Offset(0.0, 0.0))
+                .chain(CurveTween(curve: Curves.ease));
 
-    //     const begin = Offset(1.0, 0.0);
-    //     const end = Offset(0.0, 0.0);
-
-    //     final tween = Tween(begin: begin, end: end).chain(curveTween);
-
-    //     return SlideTransition(position: animation.drive(tween), child: child);
-    //   },
-    // ));
-    context.go(TutorialScreen.routeName);
+        return SlideTransition(position: animation.drive(tween), child: child);
+      },
+    ));
+    //context.go(TutorialScreen.routeName);
   }
 
   @override

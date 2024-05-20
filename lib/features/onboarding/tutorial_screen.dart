@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
-import 'package:tictok_clone/features/main_navigation/main_navigation_screen.dart';
+import 'package:tictok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
 import 'package:tictok_clone/features/utils.dart';
 
 enum Direction { right, left }
@@ -12,7 +12,6 @@ enum Direction { right, left }
 enum Page { first, second }
 
 class TutorialScreen extends StatefulWidget {
-  static String routeName = "/tutorial";
   const TutorialScreen({super.key});
 
   @override
@@ -67,7 +66,7 @@ class _TutorialScreenState extends State<TutorialScreen> {
     //   ),
     //   (route) => false,
     // );
-    context.go(MainNavigationScreen.routeName);
+    context.go("/home");
   }
 
   @override

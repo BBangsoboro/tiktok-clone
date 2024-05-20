@@ -3,15 +3,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
+import 'package:tictok_clone/common/widgets/video_configuration/video_config.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tictok_clone/features/videos/widgets/video_button.dart';
 import 'package:tictok_clone/features/videos/widgets/video_comments.dart';
 import 'package:video_player/video_player.dart';
 import 'package:visibility_detector/visibility_detector.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class VideoPost extends StatefulWidget {
+class VideoPost extends ConsumerStatefulWidget {
   final Function onVideoFinished;
   final int index;
 
@@ -19,10 +23,10 @@ class VideoPost extends StatefulWidget {
       {super.key, required this.onVideoFinished, required this.index});
 
   @override
-  State<VideoPost> createState() => _VideoPostState();
+  ConsumerState<VideoPost> createState() => VideoPostState();
 }
 
-class _VideoPostState extends State<VideoPost>
+class VideoPostState extends ConsumerState<VideoPost>
     with SingleTickerProviderStateMixin {
   late final VideoPlayerController _videoPlayerController;
   final Duration _animatedDuration = const Duration(milliseconds: 200);
@@ -31,18 +35,21 @@ class _VideoPostState extends State<VideoPost>
   bool _isPaused = false;
   bool _isSeeMore = false;
   bool _isMute = false;
+  bool _muteInput = false;
 
-  void _onMute() async {
-    setState(() {
-      _isMute = !_isMute;
-    });
+  // bool _isMute = false;
 
-    if (_isMute) {
-      await _videoPlayerController.setVolume(50);
-    } else {
-      await _videoPlayerController.setVolume(0);
-    }
-  }
+  // void _onMute() async {
+  //   setState(() {
+  //     _isMute = !_isMute;
+  //   });
+
+  //   if (_isMute) {
+  //     await _videoPlayerController.setVolume(50);
+  //   } else {
+  //     await _videoPlayerController.setVolume(0);
+  //   }
+  // }
 
   void _onVideoChange() {
     if (_videoPlayerController.value.isInitialized) {
@@ -78,6 +85,19 @@ class _VideoPostState extends State<VideoPost>
     );
   }
 
+  Future<void> _onPlaybackConfigChanged() async {
+    if (!mounted) return;
+
+    final muted = ref.read(playbackConfigProvider).muted;
+    ref.read(playbackConfigProvider.notifier).setMuted(!muted);
+
+    if (muted) {
+      _videoPlayerController.setVolume(0.0);
+    } else {
+      _videoPlayerController.setVolume(1.0);
+    }
+  }
+
   @override
   void dispose() {
     _animationController.dispose();
@@ -90,7 +110,9 @@ class _VideoPostState extends State<VideoPost>
     if (info.visibleFraction == 1 &&
         !_isPaused &&
         !_videoPlayerController.value.isPlaying) {
-      _videoPlayerController.play();
+      if (ref.read(playbackConfigProvider).autoplay) {
+        _videoPlayerController.play();
+      }
     }
 
     if (_videoPlayerController.value.isPlaying && info.visibleFraction == 0) {
@@ -132,6 +154,19 @@ class _VideoPostState extends State<VideoPost>
     _onTogglePause();
   }
 
+  void _userChangedVolume() async {
+    _muteInput = true;
+    _isMute = !_isMute;
+
+    if (_isMute) {
+      await _videoPlayerController.setVolume(0.0);
+    } else {
+      await _videoPlayerController.setVolume(1.0);
+    }
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return VisibilityDetector(
@@ -169,6 +204,25 @@ class _VideoPostState extends State<VideoPost>
                     ),
                   ),
                 ),
+              ),
+            ),
+          ),
+          Positioned(
+            left: Sizes.size20,
+            top: Sizes.size40,
+            child: IconButton(
+              onPressed: () {
+                _userChangedVolume();
+              },
+              icon: FaIcon(
+                !_muteInput
+                    ? (ref.watch(playbackConfigProvider).muted
+                        ? FontAwesomeIcons.volumeXmark
+                        : FontAwesomeIcons.volumeHigh)
+                    : (_isMute
+                        ? FontAwesomeIcons.volumeXmark
+                        : FontAwesomeIcons.volumeHigh),
+                color: Colors.white,
               ),
             ),
           ),
@@ -237,23 +291,23 @@ class _VideoPostState extends State<VideoPost>
               right: 20,
               child: Column(
                 children: [
-                  GestureDetector(
-                    onTap: _onMute,
-                    child: AnimatedCrossFade(
-                      crossFadeState: _isMute
-                          ? CrossFadeState.showSecond
-                          : CrossFadeState.showFirst,
-                      duration: const Duration(milliseconds: 300),
-                      firstChild: const VideoButton(
-                        icon: FontAwesomeIcons.volumeXmark,
-                        text: "",
-                      ),
-                      secondChild: const VideoButton(
-                        icon: FontAwesomeIcons.volumeHigh,
-                        text: "",
-                      ),
-                    ),
-                  ),
+                  // GestureDetector(
+                  //   onTap: _onMute,
+                  //   child: AnimatedCrossFade(
+                  //     crossFadeState: _isMute
+                  //         ? CrossFadeState.showSecond
+                  //         : CrossFadeState.showFirst,
+                  //     duration: const Duration(milliseconds: 300),
+                  //     firstChild: const VideoButton(
+                  //       icon: FontAwesomeIcons.volumeXmark,
+                  //       text: "",
+                  //     ),
+                  //     secondChild: const VideoButton(
+                  //       icon: FontAwesomeIcons.volumeHigh,
+                  //       text: "",
+                  //     ),
+                  //   ),
+                  // ),
                   const Column(
                     children: [
                       CircleAvatar(

@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tictok_clone/features/inbox/chat_detail_screen.dart';
 
 class ChatsScreen extends StatefulWidget {
+  static const String routeName = "chat";
+  static const String routeURL = "/chat";
   const ChatsScreen({super.key});
 
   @override
@@ -42,32 +45,36 @@ class _ChatsScreenState extends State<ChatsScreen> {
     }
   }
 
-  void _onChatTap() {
-    Navigator.of(context).push(
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const ChatDetailScreen(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          var curve = Curves.ease;
-          var curveTween = CurveTween(curve: curve);
+  void _onChatTap(int index) {
+    // Navigator.of(context).push(
+    //   PageRouteBuilder(
+    //     pageBuilder: (context, animation, secondaryAnimation) =>
+    //         const ChatDetailScreen(),
+    //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
+    //       var curve = Curves.ease;
+    //       var curveTween = CurveTween(curve: curve);
 
-          const begin = Offset(1.0, 0.0);
-          const end = Offset(0.0, 0.0);
+    //       const begin = Offset(1.0, 0.0);
+    //       const end = Offset(0.0, 0.0);
 
-          final tween = Tween(begin: begin, end: end).chain(curveTween);
+    //       final tween = Tween(begin: begin, end: end).chain(curveTween);
 
-          return SlideTransition(
-              position: animation.drive(tween), child: child);
-        },
-        fullscreenDialog: true,
-      ),
+    //       return SlideTransition(
+    //           position: animation.drive(tween), child: child);
+    //     },
+    //     fullscreenDialog: true,
+    //   ),
+    // );
+    context.pushNamed(
+      ChatDetailScreen.routeName,
+      params: {"chatId": "$index"},
     );
   }
 
   Widget _makeTile(int index) {
     return ListTile(
       onLongPress: () => {_deleteItem(index)},
-      onTap: _onChatTap,
+      onTap: () => {_onChatTap(index)},
       leading: const CircleAvatar(
         radius: 30,
         foregroundImage: AssetImage("assets/images/BBansoboro.jpg"),

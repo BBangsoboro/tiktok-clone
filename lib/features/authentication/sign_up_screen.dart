@@ -48,27 +48,24 @@ class SignUpScreen extends StatelessWidget {
   }
 
   void _onEmailTap(BuildContext context) {
-    // Navigator.of(context).push(
-    //   PageRouteBuilder(
-    //     pageBuilder: (context, animation, secondaryAnimation) =>
-    //         const UsernameScreen(),
-    //     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //       var curve = Curves.ease;
-    //       var curveTween = CurveTween(curve: curve);
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) =>
+            const UsernameScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          final tween =
+              Tween(begin: const Offset(1.0, 0.0), end: const Offset(0.0, 0.0))
+                  .chain(CurveTween(curve: Curves.ease));
 
-    //       const begin = Offset(1.0, 0.0);
-    //       const end = Offset(0.0, 0.0);
-
-    //       final tween = Tween(begin: begin, end: end).chain(curveTween);
-
-    //       return SlideTransition(
-    //           position: animation.drive(tween), child: child);
-    //     },
-    //   ),
-    // );
+          return SlideTransition(
+              position: animation.drive(tween), child: child);
+        },
+      ),
+    );
     // Navigator.of(context).pushNamed(UsernameScreen.routeName);
 
-    context.pushNamed(UsernameScreen.routeName);
+    //context.pushNamed(UsernameScreen.routeName);
     //context.go('/users/lynn?show=likes');
   }
 

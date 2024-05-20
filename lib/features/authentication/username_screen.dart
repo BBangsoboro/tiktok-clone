@@ -8,8 +8,6 @@ import 'package:tictok_clone/features/authentication/email_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
 
 class UsernameScreen extends StatefulWidget {
-  static String routeName = "username";
-  static String routeURL = "username";
   const UsernameScreen({super.key});
 
   @override
@@ -40,21 +38,21 @@ class _UsernameScreenState extends State<UsernameScreen> {
   void _onNextTap() {
     if (_username.isEmpty) return;
 
-    // Navigator.of(context).push(PageRouteBuilder(
-    //   pageBuilder: (context, animation, secondaryAnimation) =>
-    //       const EmailScreen(),
-    //   transitionsBuilder: (context, animation, secondaryAnimation, child) {
-    //     var curve = Curves.ease;
-    //     var curveTween = CurveTween(curve: curve);
+    Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) => EmailScreen(
+            username: _username,
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            final tween = Tween(
+                    begin: const Offset(1.0, 0.0), end: const Offset(0.0, 0.0))
+                .chain(CurveTween(curve: Curves.ease));
 
-    //     const begin = Offset(1.0, 0.0);
-    //     const end = Offset(0.0, 0.0);
-
-    //     final tween = Tween(begin: begin, end: end).chain(curveTween);
-
-    //     return SlideTransition(position: animation.drive(tween), child: child);
-    //   },
-    // ));
+            return SlideTransition(
+                position: animation.drive(tween), child: child);
+          },
+        ));
 
     // Navigator.pushNamed(
     //   context,
@@ -62,10 +60,10 @@ class _UsernameScreenState extends State<UsernameScreen> {
     //   arguments: EmailScreenParams(username: _username),
     // );
 
-    context.pushNamed(
-      EmailScreen.routeName,
-      extra: EmailScreenParams(username: _username),
-    );
+    // context.pushNamed(
+    //   EmailScreen.routeName,
+    //   extra: EmailScreenParams(username: _username),
+    // );
   }
 
   @override

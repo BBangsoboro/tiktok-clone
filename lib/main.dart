@@ -1,15 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tictok_clone/common/widgets/video_configuration/video_config.dart';
 import 'package:tictok_clone/constants/sizes.dart';
 import 'package:tictok_clone/features/authentication/email_screen.dart';
 import 'package:tictok_clone/features/authentication/log_in_screen.dart';
 import 'package:tictok_clone/features/authentication/sign_up_screen.dart';
 import 'package:tictok_clone/features/authentication/username_screen.dart';
-import 'package:tictok_clone/features/main_navigation/main_navigation_screen.dart';
+import 'package:tictok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tictok_clone/features/settings/settings_screen.dart';
 import 'package:flutter_gen/gen_l10n/intl_generated.dart';
+import 'package:tictok_clone/features/videos/repositories/video_playback_config_repo.dart';
+import 'package:tictok_clone/features/videos/view_models/playback_config_vm.dart';
 import 'package:tictok_clone/router.dart';
 
 void main() async {
@@ -21,7 +27,18 @@ void main() async {
 
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
 
-  runApp(const TikTokApp());
+  final preferences = await SharedPreferences.getInstance();
+  final repository = VideoPlaybackConfigRepository(preferences);
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        playbackConfigProvider
+            .overrideWith(() => PlaybackConfigViewModel(repository)),
+      ],
+      child: const TikTokApp(),
+    ),
+  );
 }
 
 class TikTokApp extends StatelessWidget {
