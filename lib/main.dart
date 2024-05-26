@@ -1,25 +1,22 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tictok_clone/common/widgets/video_configuration/video_config.dart';
 import 'package:tictok_clone/constants/sizes.dart';
-import 'package:tictok_clone/features/authentication/email_screen.dart';
-import 'package:tictok_clone/features/authentication/log_in_screen.dart';
-import 'package:tictok_clone/features/authentication/sign_up_screen.dart';
-import 'package:tictok_clone/features/authentication/username_screen.dart';
-import 'package:tictok_clone/common/widgets/main_navigation/main_navigation_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:tictok_clone/features/settings/settings_screen.dart';
 import 'package:flutter_gen/gen_l10n/intl_generated.dart';
 import 'package:tictok_clone/features/videos/repositories/video_playback_config_repo.dart';
 import 'package:tictok_clone/features/videos/view_models/playback_config_vm.dart';
+import 'package:tictok_clone/firebase_options.dart';
 import 'package:tictok_clone/router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -41,14 +38,14 @@ void main() async {
   );
 }
 
-class TikTokApp extends StatelessWidget {
+class TikTokApp extends ConsumerWidget {
   const TikTokApp({super.key});
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp.router(
-      routerConfig: router,
+      routerConfig: ref.watch(routerProvider),
       debugShowCheckedModeBanner: false,
       title: 'Tiktok Clone',
       localizationsDelegates: AppLocalizations.localizationsDelegates,

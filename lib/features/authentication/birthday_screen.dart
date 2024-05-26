@@ -1,24 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tictok_clone/constants/gaps.dart';
 import 'package:tictok_clone/constants/sizes.dart';
+import 'package:tictok_clone/features/authentication/view_models/signup_view_model.dart';
 
 import 'package:tictok_clone/features/onboarding/interests_screen.dart';
 import 'package:tictok_clone/features/authentication/widgets/form_button.dart';
 
-class BirthdayScreen extends StatefulWidget {
+class BirthdayScreen extends ConsumerStatefulWidget {
   const BirthdayScreen({super.key});
 
   @override
-  State<BirthdayScreen> createState() => _BirthdayScreenState();
+  BirthdayScreenState createState() => BirthdayScreenState();
 }
 
-class _BirthdayScreenState extends State<BirthdayScreen> {
+class BirthdayScreenState extends ConsumerState<BirthdayScreen> {
   final TextEditingController _birthdayController = TextEditingController();
 
   final DateTime _initialDate = DateTime.now();
+  DateTime _birthday = DateTime.now();
   //DateTime maxDate = DateTime.now().add(const Duration(days: -(365 * 12)));
 
   @override
@@ -53,12 +56,19 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
     //   ),
     //   (route) => false,
     // );
-    context.goNamed(InterestsScreen.routeName);
+
+    //context.goNamed(InterestsScreen.routeName);
+
+    final state = ref.read(signUpForm.notifier).state;
+    ref.read(signUpForm.notifier).state = {...state, "birthday": _birthday};
+
+    ref.read(signUpProvider.notifier).signUp(context);
   }
 
   void _setTextFieldDate(DateTime date) {
     final textDate = date.toString().split(" ").first;
     _birthdayController.value = TextEditingValue(text: textDate);
+    _birthday = date;
   }
 
   @override
@@ -148,8 +158,8 @@ class _BirthdayScreenState extends State<BirthdayScreen> {
                   Gaps.v36,
                   GestureDetector(
                     onTap: _onNextTap,
-                    child: const FormButton(
-                      disabled: false,
+                    child: FormButton(
+                      disabled: ref.watch(signUpProvider).isLoading,
                       text: "Next",
                     ),
                   ),

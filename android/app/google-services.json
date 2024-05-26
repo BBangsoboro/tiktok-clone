@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "615760504353",
+    "project_id": "tic-tok-abc",
+    "storage_bucket": "tic-tok-abc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:615760504353:android:7dcfd70f538f446be56560",
+        "android_client_info": {
+          "package_name": "com.example.tictok_clone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByONsm5wZkmH4WZu4riowWvh7372a2bag"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
